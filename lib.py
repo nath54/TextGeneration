@@ -11,6 +11,7 @@ dresultats="resultats/"
 chars=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"]
 
 def save_grams(nts):
+    print("Saving...")
     for nds in nts:
         nn=nds[0]
         txt=""
@@ -43,21 +44,25 @@ def load_grams(nts):
     return [nds[0] for nds in nts]
           
 def prepare_to_gen(nn):
+    print("Converting...")
     nl={}
     for ce in nn.keys():
         nl[ce]=[]
         for ca in nn[ce].keys():
             for x in range(nn[ce][ca]):
                 nl[ce].append(ca)
+    print("CONVERTIS.")
     return nl
 
 def prepare_to_gen_mots(nn):
+    print("Converting Words...")
     nl={}
     for ce in nn.keys():
         nl[ce]=[]
         for ca in nn[ce].keys():
             for x in range(nn[ce][ca]):
                 nl[ce].append(ca)
+    print("CONVERTIS.")
     return nl
 
 def gen_txt(txt,nl,tt):
@@ -70,6 +75,7 @@ def gen_txt(txt,nl,tt):
     return txt
     
 def main_gen(btxt,nl,tgram,nb_char):
+    print("Generating...")
     txt=btxt
     while len(txt)<tgram:
         c=random.choice(chars)
@@ -77,6 +83,7 @@ def main_gen(btxt,nl,tgram,nb_char):
         txt+=c
     for x in range(nb_char):
         txt=gen_txt(txt,nl,tgram)
+    print("GENERE.")
     return txt
 
 def gen_txt_mots(mots,nl,tgram):
@@ -90,6 +97,7 @@ def gen_txt_mots(mots,nl,tgram):
     return mots
 
 def main_gen_mots(b_mots,nl,tgram,nb_mots):
+    print("Generating words...")
     mots=b_mots
     while len(mots)<tgram:
         m=random.choice(nl[random.choice(list(nl.keys()))])
@@ -97,6 +105,7 @@ def main_gen_mots(b_mots,nl,tgram,nb_mots):
         mots.append(m)
     for x in range(nb_mots):
         mots=gen_txt_mots(mots,nl,tgram)
+    print("GENERE")
     return mots
         
 def to_words(txt):
