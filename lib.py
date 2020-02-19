@@ -22,8 +22,8 @@ def save_grams(nts):
         f.close()
     print("SAVED")
 
-def load_grams():
-    nts=[[{},"1gram.txt"],[{},"2gram.txt"],[{},"3gram.txt"],[{},"4gram.txt"],[{},"5gram.txt"],[{},"6gram.txt"],[{},"7gram.txt"],[{},"8gram.txt"],[{},"9gram.txt"]]
+def load_grams(nts):
+    print("Chargement des ressources...")
     for nds in nts:
         nn=nds[0]
         fich=nds[1]
@@ -51,6 +51,15 @@ def prepare_to_gen(nn):
                 nl[ce].append(ca)
     return nl
 
+def prepare_to_gen_mots(nn):
+    nl={}
+    for ce in nn.keys():
+        nl[ce]=[]
+        for ca in nn[ce].keys():
+            for x in range(nn[ce][ca]):
+                nl[ce].append(ca)
+    return nl
+
 def gen_txt(txt,nl,tt):
     ce=txt[-tt:]
     if ce in nl.keys():
@@ -69,6 +78,44 @@ def main_gen(btxt,nl,tgram,nb_char):
     for x in range(nb_char):
         txt=gen_txt(txt,nl,tgram)
     return txt
+
+def gen_txt_mots(mots,nl,tgram):
+    ce=mots[-tgram:]
+    ce=",".join(ce)
+    if ce in nl.keys():
+        mots.append( random.choice(nl[ce]) )
+    else:
+        cee=random.choice(list(nl.keys()))
+        mots.append( random.choice(nl[cee]) )
+    return mots
+
+def main_gen_mots(b_mots,nl,tgram,nb_mots):
+    mots=b_mots
+    while len(mots)<tgram:
+        m=random.choice(nl[random.choice(list(nl.keys()))])
+        print("Le texte de base rentré ne contient pas assez de mots, il sera donc complété par le mot : "+m)
+        mots.append(m)
+    for x in range(nb_mots):
+        mots=gen_txt_mots(mots,nl,tgram)
+    return mots
+        
+def to_words(txt):
+    #traite_texte
+    for c in ["\n","\t","|",".",";",",",":","?","/","!","<",">","(",")","{","}","[","]","_","«","»","»","--"]:
+        txt=txt.replace(c," ")
+    for x in range(10): txt=txt.replace("  "," ")
+    print("traité")
+    
+    #words
+    words=[]
+    for ch in txt.split(" "):
+        ch=ch.strip()
+        if ch!="":
+            words.append(ch)
+    return words
+
+
+
 
 
 
